@@ -1,0 +1,22 @@
+class Solution {
+    public int numRescueBoats(int[] people, int limit) {
+        if(people == null || people.length == 0){
+            return 0;
+        }
+        Arrays.sort(people);
+        int i = 0;
+        int j = people.length - 1;
+        int res = 0;
+        while(i <= j){
+            if (people[i] + people[j] <= limit){
+                i++;
+            }
+            j--;
+            res++;
+        }
+        return res;
+    }
+}
+
+//数组排序：Arrays.sort(数组名)
+//无论轻的人能不能上船，重的人都得上船，所以j--;res++;只需要在while循环下。
