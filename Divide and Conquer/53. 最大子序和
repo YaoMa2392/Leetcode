@@ -1,0 +1,35 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        return getMax(nums, 0, nums.length - 1);
+    }
+
+    private int getMax(int[] nums, int l, int r){
+        if(l == r){ 
+            return nums[l]; //递归终止条件。分治 = 递归 + 合并。
+        }
+        int mid = l + (r - l) / 2;
+        int leftsum = getMax(nums, l, mid);
+        int rightsum = getMax(nums, mid + 1, r);
+        int crosssum = crosssum(nums, l, r);
+        return Math.max(crosssum, Math.max(leftsum, rightsum));
+    }
+
+    private int crosssum(int[] nums, int l, int r){
+        int mid = l + (r - l) / 2;
+
+        int leftsum = nums[mid];
+        int leftmax = leftsum;
+        for(int i = mid - 1; i >= l; i--){
+            leftsum += nums[i];
+            leftmax = Math.max(leftsum, leftmax);
+        }
+
+        int rightsum = nums[mid + 1];
+        int rightmax = rightsum;
+        for(int j = mid + 2; j <= r; j++){
+            rightsum += nums[j];
+            rightmax = Math.max(rightsum, rightmax);
+        }
+        return leftmax + rightmax;
+    }
+}
