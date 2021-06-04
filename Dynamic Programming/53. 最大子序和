@@ -1,0 +1,18 @@
+dp三要素：
+1、方程式
+2、初始值
+3、终止值
+
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int res = dp[0]; //初始值
+        for(int i = 1; i < nums.length; i++){
+            dp[i] = Math.max(dp[i-1] + nums[i], nums[i]);  //考虑要不要保留上一个值
+            res = Math.max(res, dp[i]);  // 方程式
+        } 
+        return res;  //终止值
+    }
+}
