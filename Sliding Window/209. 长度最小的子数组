@@ -1,0 +1,14 @@
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int low = 0, high = 0, sum = 0; //双指针 low 和 high 
+        int min = Integer.MAX_VALUE; //记录 >=target 时的最小个数
+        while(high < nums.length){
+            sum += nums[high++];  //入队列，先用 high 指针遍历数组，计算sum
+            while(sum >= target){ 
+                min = Math.min(min, high - low); //当sum符合要求（ >=target 时），更新 min
+                sum -= nums[low++];  //出队列
+            }
+        }
+        return min == Integer.MAX_VALUE ? 0:min;  //如果不存在 return 0，存在则 return min
+    }
+}
