@@ -1,3 +1,19 @@
+分治法总结：
+分治 = 递归 + 合并。主函数调用合并（分治） →  合并函数  →  递归函数
+主函数（return 合并函数(数组，0，nums.length-1)）
+合并函数（数组，左指针，右指针）{
+     if(..) return..  //递归终止条件
+     mid = l + (r - l) / 2
+     左
+     右
+     return
+}
+递归函数（数组，左指针，右指针）{
+     mid = l + (r - l) / 2
+     递归条件
+}
+
+
 class Solution {
     public int maxSubArray(int[] nums) {
         return getMax(nums, 0, nums.length - 1);
