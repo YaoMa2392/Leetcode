@@ -1,0 +1,41 @@
+class Solution {
+    public void reverseString(char[] s) {
+        if(s == null || s.length == 0){
+            return;
+        }
+
+        recursion(s, 0, s.length - 1);
+    }
+
+    private void recursion(char[] s, int left, int right){
+        if(left >= right){
+            return;
+        }
+        recursion(s, left + 1, right - 1);
+        char temp = s[left];
+        s[left] = s[right];
+        s[right] = temp;
+    }
+}
+
+//递归思想 - 双指针解法。
+______________________________________________________________________________________
+
+//本题用递归，执行用时和内存消耗都不太理想，可以直接用双指针解，依旧是递归思想：
+
+class Solution {
+    public void reverseString(char[] s) {
+        if(s == null || s.length == 0){
+            return;
+        }
+        for(int i = 0, j = s.length - 1; j > i; i++, j--){
+                char temp = s[i];
+                s[i] = s[j];
+                s[j] = temp;
+        }
+    }
+}
+
+
+//注意这里 i 和 j 指针不能嵌套循环
+//定义域就是 j > i， 不是 i < s.length, j >= 0
