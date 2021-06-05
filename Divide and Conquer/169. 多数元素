@@ -1,39 +1,33 @@
 class Solution {
-    private int countInRange(int[] nums, int num, int lo, int hi) {
+    public int majorityElement(int[] nums) {
+        return getMajority(nums, 0, nums.length - 1);
+    }
+
+    private int getMajority(int[] nums, int l, int r){
+        if(l == r) {
+            return nums[l];
+        }
+        int mid = l + (r - l) / 2;
+        int leftmajority = getMajority(nums, l, mid);
+        int rightmajority = getMajority(nums, mid + 1, r);
+
+        if(leftmajority == rightmajority){
+            return leftmajority;
+        }
+
+        int leftcount = countInRange(nums, leftmajority, l, r);
+        int rightcount = countInRange(nums, rightmajority, l, r);
+
+        return leftcount > rightcount ? leftmajority : rightmajority;
+    }
+
+    private int countInRange(int nums[], int majority, int l, int r){
         int count = 0;
-        for (int i = lo; i <= hi; i++) {
-            if (nums[i] == num) {
+        for(int i = l; i <= r; i++){
+            if(nums[i] == majority){
                 count++;
             }
         }
         return count;
-    }
-
-    private int majorityElementRec(int[] nums, int lo, int hi) {
-        // base case; the only element in an array of size 1 is the majority
-        // element.
-        if (lo == hi) {
-            return nums[lo];
-        }
-
-        // recurse on left and right halves of this slice.
-        int mid = (hi - lo) / 2 + lo;
-        int left = majorityElementRec(nums, lo, mid);
-        int right = majorityElementRec(nums, mid + 1, hi);
-
-        // if the two halves agree on the majority element, return it.
-        if (left == right) {
-            return left;
-        }
-
-        // otherwise, count each element and return the "winner".
-        int leftCount = countInRange(nums, left, lo, hi);
-        int rightCount = countInRange(nums, right, lo, hi);
-
-        return leftCount > rightCount ? left : right;
-    }
-
-    public int majorityElement(int[] nums) {
-        return majorityElementRec(nums, 0, nums.length - 1);
     }
 }
