@@ -1,0 +1,39 @@
+/** 
+ * Forward declaration of guess API.
+ * @param  num   your guess
+ * @return 	     -1 if num is lower than the guess number
+ *			      1 if num is higher than the guess number
+ *               otherwise return 0
+ * int guess(int num);
+ */
+
+public class Solution extends GuessGame {
+    public int guessNumber(int n) {
+        int left = 1;
+        int right = n;
+        while (left <= right){
+            int mid = left + (right - left) / 2;
+            if (guess(mid) == 0){
+                return mid;
+            }else if (guess(mid) < 0){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+}
+
+
+复杂度分析：
+时间复杂度： O(log_2_n), 为二分查找的时间复杂度。
+空间复杂度： O(1), 没有使用额外的空间。
+
+
+//int guess(int num) 来获取猜测结果，返回值一共有 3 种可能的情况（-1，1 或 0）：
+-1：我选出的数字比你猜的数字小 pick < num
+1：我选出的数字比你猜的数字大 pick > num
+0：我选出的数字和你猜的数字一样。恭喜！你猜对了！pick == num
+
+//int guess(int num) , 这里的num就是猜的数
