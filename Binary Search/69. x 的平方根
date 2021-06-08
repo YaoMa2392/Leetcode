@@ -1,0 +1,24 @@
+class Solution {
+    public int mySqrt(int x) {
+        //特殊值
+        if(x == 0){
+            return 0;
+        }
+        int left = 1;
+        int right = x;
+        while(left <= right){
+            int mid = left + (right - left) / 2;
+            if (x == (long)mid * mid){
+                return mid;
+            }else if(x > (long)mid * mid){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return right;
+    }
+}
+
+
+// 这边要转换类行 (long)mid * mid
