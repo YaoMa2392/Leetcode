@@ -16,6 +16,7 @@
 输出: true
 
 —————————————————————————————————————————————————————————————
+计数版：
 
 class Solution {
     public boolean containsDuplicate(int[] nums) {
@@ -44,3 +45,25 @@ class Solution {
 
 //建立哈希表：HashMap<Integer, Integer> map = new HashMap<>()   <>里前面是key，后面是value
 //遍历：for(int num:nums){}
+
+
+无计数：
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return false;
+        }
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int num:nums){
+            if(map.containsKey(num)){
+                return true;
+            }else{
+                map.put(num, 1);
+            }
+        }
+        return false;
+    }
+}
+
+//注意for循环内，要先查看是否存在，然后再put。如果先put 再查看, 即使有重复的也会被先更新掉。
