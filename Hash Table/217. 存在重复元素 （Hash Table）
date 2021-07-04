@@ -39,6 +39,8 @@ class Solution {
     }
 }
 
+//Time complexity: O(N)
+//Space complexity: O(N)
 
 //建立哈希表：HashMap<Integer, Integer> map = new HashMap<>()   <>里前面是key，后面是value
 //遍历：for(int num:nums){}
