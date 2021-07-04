@@ -1,0 +1,36 @@
+创建哈希表：
+String[] hashTable = new String[4];  //用数组创建
+HashMap<Integer, String> map = new HashMap<>();  //Java自带的HashMap
+HashMap<key, value>
+
+
+添加元素：O(1)
+hashTable[1] = "hanmeimei";
+hashTable[2] = "lilei";  //数组
+map.put(1, "hanmeimei");
+map.put(2, "lilei");  //HashMap
+
+
+更新元素：O(1)
+hashTable[1] = "helen";  //数组
+map.put(1, "helen");  //HashMap
+
+
+删除元素：O(1)
+hashTable[1] = " ";  //数组, 改成一个不常用的值，比如一个空字符串
+map.put(1);  //HashMap
+
+
+获取元素：O(1)
+String temp = hashTable[1]  //数组
+map.get(1);  //HashMap
+
+
+检查key存在：O(1)
+map.containsKey(1);
+
+
+长度：O(1)
+map.size();
+是否还有元素
+map.isEmpty();
