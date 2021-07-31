@@ -19,12 +19,12 @@ class Solution {
             return 0;
         }
         int result = 0;
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        Queue<TreeNode> queue = new LinkedList<>();  // Queue的创建方式和LinkedList一样
+        queue.add(root); // 先把root加进queue，再去把root拿出来跟low、high比较
         while(queue.size() > 0){
-            int size = queue.size();
+            int size = queue.size();  // 如果这里不把值赋给size，倒数第二行的size--无法表达（可能是？）
             while(size > 0){
-                TreeNode cur = queue.poll();
+                TreeNode cur = queue.poll(); //当前的结点就是queue推出来的结点
                 if(cur.val >= low && cur.val <= high){
                     result = result + cur.val;
                 }
@@ -34,7 +34,7 @@ class Solution {
                 if(cur.right != null){
                     queue.add(cur.right);
                 }
-                size--;
+                size--;  //比较完之后将该结点删除
             }
         }
         return result;
