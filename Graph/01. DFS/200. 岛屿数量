@@ -38,4 +38,7 @@ class Solution {
     // C is the column of grid
     // Time Complexity: O(RC)
     // Space Complexity: O(RC)
+    
+    // 注意dfs这边if条件里不要丢掉 grid[x][y] == '0'
+    // 注意char grid是 char[][] grid，不是char grid[][]
 
