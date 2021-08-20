@@ -5,19 +5,19 @@ class Solution {
         return result;
     }
 
-    private void backtracking(int n, List<String> result, int left, int right, String str){
-        if (right > left) {
+    private void backtracking (int n, List<String> result, int left, int right, String cur){
+        if(right > left){
             return;
         }
-        if (left == n && right == n) {
-            result.add(str);
+        if(left == n && right == n){
+            result.add(cur);
             return;
         }
-        if (left < n) {
-            backtracking (n, result, left+1, right, str+"(");
+        if(left < n){
+            backtracking(n, result, left + 1, right, cur + "(");
         }
-        if (right < left) {
-            backtracking (n, result, left, right+1, str+")");
+        if(right < left){
+            backtracking(n, result, left, right + 1, cur + ")");
         }
     }
 }
