@@ -1,0 +1,34 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums); 
+        // 比78题来说，多了可能的重复数字
+        // 先对数组进行排序，这样相同的元素就会在一起，便于过滤
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(0, nums, result, new ArrayList<>());
+        return result;
+    }
+    
+ /**
+ * @param nums     原始数组
+ * @param res      需要返回的结果
+ * @param tempList 当前路径上的元素
+ * @param level    遍历到第几层
+ */
+    
+    private void backtrack(int level, int[] nums, List<List<Integer>> result, ArrayList<Integer> temp){
+        result.add(new ArrayList<>(temp));
+        //每条路径上所选择的元素组成的数组都是子集，所以都要添加到集合ressult中
+        for (int i = level; i < nums.length; i++){
+            //这里遍历的时候每次都有从之前选择元素的下一个开始，所以这里i的初始值是level
+            if(i != level && nums[i] == nums[i - 1])
+                //剪枝，过滤掉重复的
+                continue;
+            temp.add(nums[i]);
+            //选择当前元素
+            backtrack(i + 1, nums, result, temp);
+            //递归到下一层
+            temp.remove(temp.size() - 1);
+            //撤销选择
+        }
+    }
+}
