@@ -1,24 +1,25 @@
 class Solution {
     List<List<Integer>> result = new LinkedList<>();
-    ArrayList<Integer> temp = new ArrayList<Integer>();
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        backtrack(candidates, target, 0, 0);
+        Arrays.sort(candidates);
+        backtrack(candidates, target, 0, 0, new ArrayList<>());
         return result;
     }
     
-    private void backtrack(int[] candidates, int target, int sum, int indexNow){
+    private void backtrack(int[] candidates, int target, int sum, int index, List<Integer> temp){
         if(target == sum){
             result.add(new ArrayList<> (temp));
             return;
         }
-        if(target < sum){
-            return;
-        }
-        for(int i = indexNow; i < candidates.length; i++){
-            temp.add(candidates[i]);
-            //这里给下一层中的indexNow赋值就可以去从i本身开始,因为可以重复使用自己,但是为了避免重复,就舍弃<i的部分
-            backtrack(candidates, target, sum + candidates[i], i);
-            temp.remove(temp.size() - 1);
+        for(int i = index; i < candidates.length; i++){
+            int ans = sum + candidates[i];
+            if(ans <= target){
+                temp.add(candidates[i]);
+                backtrack(candidates, target, ans, i, temp);
+                temp.remove(temp.size() - 1);
+            }else{
+                break;
+            }
         }
     }
 }
