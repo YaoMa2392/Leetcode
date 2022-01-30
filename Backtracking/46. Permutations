@@ -1,0 +1,26 @@
+class Solution {
+    // 主函数这边不变
+    List<List<Integer>> result = new ArrayList<>();
+    public List<List<Integer>> permute(int[] nums) {
+        backtrack(nums, new ArrayList<>());
+        return result;
+    }
+    
+    private void backtrack(int[] nums, List<Integer> path){
+        // 因为premutations是要nums里所有数的不同排列顺序，
+        // 所以每一种情况都会遍历完一整个nums
+        // 所以可以拿path的size和nums的长度直接去比较
+        if(path.size() == nums.length){
+            result.add(new ArrayList<>(path));
+            return; // 如果走过的路径的长度等于原数组的长度，就说明走到头了，递归结束。
+        }
+        for(int num: nums){
+            if(path.contains(num)){
+                continue; // 挨个做选择，这个点已经走过了，就不走了
+            }
+            path.add(num); // 没走过这个点，加入到path中
+            backtrack(nums, path);
+            path.remove(path.size() - 1);
+        }
+    }
+}
