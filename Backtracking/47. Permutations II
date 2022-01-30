@@ -1,0 +1,36 @@
+class Solution {
+    boolean[] visited; //定义一个标记数组 visited 来标记已经填过的数
+    List<List<Integer>> result = new ArrayList<>();
+    
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        visited = new boolean[nums.length];
+        Arrays.sort(nums);
+        backtrack(nums, 0, new ArrayList<>());
+        return result;
+    }
+
+    // 下一个待进入的位置是index
+    private void backtrack(int[] nums, int index, List<Integer> temp) {
+        if (index == nums.length) {
+            // 判断是否走到头，如果走到头，找到了一个可行的解，则将其加入result中
+            result.add(new ArrayList<Integer>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] || (i > 0 && nums[i] == nums[i - 1] && visited[i - 1])) {
+                // 1. 如果i这个位置的数被遍历过，则跳过
+                // 2. 当i > 0, 如果当前位置数字和前一个位置的数字相同，并且前一个数字已经被遍历过了，则跳过
+                continue;
+            }
+            temp.add(nums[i]);
+            visited[i] = true;
+            backtrack(nums, index + 1, temp);
+            visited[i] = false;
+            temp.remove(index);
+        }
+    }
+}
+
+// 时间复杂度：O(n × n!)，其中 n 为序列的长度。
+// 空间复杂度：O(n)。
+// https://leetcode-cn.com/problems/permutations-ii/solution/quan-pai-lie-ii-by-leetcode-solution/
