@@ -17,7 +17,7 @@ class Solution {
     
     private void backtrack(int level, int[] nums, List<List<Integer>> result, ArrayList<Integer> temp){
         result.add(new ArrayList<>(temp));
-        //每条路径上所选择的元素组成的数组都是子集，所以都要添加到集合ressult中
+        //每条路径上所选择的元素组成的数组都是子集，所以都要添加到集合result中
         for (int i = level; i < nums.length; i++){
             //这里遍历的时候每次都有从之前选择元素的下一个开始，所以这里i的初始值是level
             if(i != level && nums[i] == nums[i - 1])
