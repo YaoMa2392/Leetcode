@@ -1,0 +1,24 @@
+https://leetcode-cn.com/problems/subsets/solution/c-zong-jie-liao-hui-su-wen-ti-lei-xing-dai-ni-gao-/
+
+// 主函数：
+List<List<Integer>> result = new ArrayList<>();
+public ... {
+    (Arrays.sort(nums); // 如果给定的set里的元素没说是distinct，那么需要排序。这是剪枝的前提) 
+    backtrack(...);
+    return result;
+}
+
+private(public) void backtrack(...){ 
+// ...一定有题目给的nums / target等元素，有path(记录路径，有level/index记录backtrack所在的层级)
+    if(达到题目要求){
+        result.add(new ArrayList<>(path));
+        return;
+    }
+    if(复杂情况：不达到要求的剪枝去重) continue;
+    
+    for(int i = level; i < nums.length; i++){
+        path.add(nums[i]); // 符合条件的加入
+        backtrack(..., i + 1, ...);
+        path.remove(path.size() - 1);
+    }
+}
