@@ -4,13 +4,11 @@ class Solution {
             return 0;
         }
         int result = 0;
-        int r = grid.length;
-        int c = grid[0].length;
-        for(int i = 0; i < r; i++) {
-            for(int j = 0; j < c; j++) {
-                if(grid[i][j] == '1') {
+        for(int r = 0; r < grid.length; r++) {
+            for(int c = 0; c < grid[0].length; c++) {
+                if(grid[r][c] == '1') {
                     result++;
-                    dfs(grid, i, j);
+                    dfs(grid, r, c);
                 }
             }
         }
@@ -18,16 +16,18 @@ class Solution {
     }
 
     void dfs(char[][] grid, int r, int c){
-        // 判断 base case
+        // 判断 base case1, 如果不在范围内，直接return
         if(!inArea(grid, r, c)){
             return;
         }
-        // 如果这个格子不是岛屿，直接返回
+        // 判断base case2, 如果这个格子不是未访问过的岛屿，直接return
         if(grid[r][c] != '1'){
             return;
         }
 
-        grid[r][c] = '2'; // 将格子标记为「已遍历过」
+        // 将格子标记为「已遍历过」
+        grid[r][c] = '2'; 
+        
         // 访问上、下、左、右四个相邻结点
         dfs(grid, r - 1, c);
         dfs(grid, r + 1, c);
@@ -44,3 +44,4 @@ class Solution {
 
 
 // 注意char和int的区别，char是字符 ‘0’，int是整数 0
+// 当函数没有返回值时，直接return；有返回值时，return 0；
