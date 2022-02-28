@@ -1,33 +1,56 @@
-import java.util.*;	
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-	public List<List<Integer>> levelOrder(TreeNode root) {
-		if(root==null) {
-			return new ArrayList<List<Integer>>();
-		}
-		
-		List<List<Integer>> res = new ArrayList<List<Integer>>();
-		LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
-		//将根节点放入队列中，然后不断遍历队列
-		queue.add(root);
-		while(queue.size()>0) {
-			//获取当前队列的长度，这个长度相当于 当前这一层的节点个数
-			int size = queue.size();
-			ArrayList<Integer> tmp = new ArrayList<Integer>();
-			//将队列中的元素都拿出来(也就是获取这一层的节点)，放到临时list中
-			//如果节点的左/右子树不为空，也放入队列中
-			for(int i=0;i<size;++i) {
-				TreeNode t = queue.remove();
-				tmp.add(t.val);
-				if(t.left!=null) {
-					queue.add(t.left);
-				}
-				if(t.right!=null) {
-					queue.add(t.right);
-				}
-			}
-			//将临时list加入最终返回结果中
-			res.add(tmp);
-		}
-		return res;
-	}
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        // 如果root不存在，直接返回空集
+        if(root == null){
+            return new ArrayList<List<Integer>>();
+        }
+        
+        // 创建返回的数组res，注意是双层
+        ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+        // 创建queue，用于遍历树（BFS用队列）
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();  // 注意这里开头的“LinkedList”
+                                 //不能用"List"替换，会导致下面的queue.remove()报错; 树是单层链表
+        //遍历树
+        queue.add(root);
+        
+        // queue的size就是每层遍历的节点的个数
+        while(queue.size() > 0){
+            int size = queue.size(); // 注意这个要写在while里面
+            // 创建一个临时存放每层遍历后的节点的数组temp
+            ArrayList<Integer> temp = new ArrayList<Integer>(); // 注意这里的temp是单层的
+            for(int i = 0; i < size; i++){
+                // t为queue当中遍历“过”的节点们
+                TreeNode t = queue.remove();
+                // 将节点的值加入temp
+                temp.add(t.val);
+                // 如果t的左右子树不为空，则将其也加入queue中遍历
+                // 注意是加入queue中遍历，而不是直接加入temp
+                if(t.left != null){
+                    queue.add(t.left);
+                }
+                // 注意：两个if 和 if + else if是不一样的
+                if(t.right != null){
+                    queue.add(t.right);
+                }
+            }
+            // 将temp加入res中
+            res.add(temp);
+        }
+        return res;
+    }
 }
