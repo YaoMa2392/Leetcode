@@ -1,0 +1,88 @@
+哈希集合
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        // 创建一个哈希标来存储数组中的数，这样查看一个数是否存在
+        // 即能优化至O(1)的时间复杂度。
+        Set<Integer> numSet = new HashSet<Integer>();
+        for(int num : nums){
+            numSet.add(num);
+        }
+        int longestStreak = 0;
+        for(int num : numSet){
+            // 只有当num-1不存在时，才开始向后遍历num+1，num+2，num+3...
+            if(!numSet.contains(num - 1)){
+                int curNum = num;
+                int curStreak = 1;
+                while(numSet.contains(curNum + 1)){
+                    curNum += 1;
+                    curStreak += 1;
+                }
+                longestStreak = Math.max(longestStreak, curStreak);
+            }
+        }
+        return longestStreak;
+    }
+}
+注意：上述代码虽然有两层循环for+while，但是由于if (!set.contains(cur - 1))判断的存在，每个元素只会被遍历一次，因此时间复杂度也为O(n)。
+
+
+并查集
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        unionFind uf = new unionFind(nums);
+        int result = 0;
+        
+        for(int num : nums){
+            // 当num + 1存在，讲num合并到num + 1所在集合中
+            if(uf.find(num + 1) != null){
+                uf.union(num, num + 1);
+            }
+        }
+        
+        for(int num : nums){
+            // 找到num的最远连续右边界
+            int right = uf.find(num);
+            result = Math.max(result, right - num + 1);
+        }
+        return result;
+    }
+}
+
+class unionFind{
+    // 记录每个节点的父节点
+    private Map<Integer, Integer> parent;
+    
+    public unionFind(int[] nums){
+        parent = new HashMap<>();
+        // 初始化父节点为自身
+        for(int num : nums){
+            parent.put(num, num);
+        }
+    }
+    
+    // 寻找x的父节点，实际上也就是x的最远连续右边界
+    public Integer find(int x){
+        // nums不包含x
+        if(!parent.containsKey(x)){
+            return null;
+        }
+        // 遍历找到x的父节点
+        while(x != parent.get(x)){
+            // 进行路径压缩，不写下面这行也可以
+            parent.put(x, parent.get(parent.get(x)));
+            x = parent.get(x);
+        }
+        return x;
+    }
+    
+    public void union(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX == rootY){
+            return;
+        }
+        parent.put(rootX, rootY);
+    }    
+}
+
+https://leetcode-cn.com/problems/longest-consecutive-sequence/solution/xiao-bai-lang-ha-xi-ji-he-ha-xi-biao-don-j5a2/
