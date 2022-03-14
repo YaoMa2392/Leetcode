@@ -1,0 +1,17 @@
+class Solution {
+    // 贪心
+    // 时间复杂度： O(n)
+    // 空间复杂度： O(1)
+    public boolean canJump(int[] nums) {
+        int jumpFarrest = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(i <= jumpFarrest){
+                jumpFarrest = Math.max(jumpFarrest, i + nums[i]);
+                if(jumpFarrest >= nums.length - 1){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
