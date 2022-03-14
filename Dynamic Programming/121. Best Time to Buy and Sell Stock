@@ -1,0 +1,54 @@
+class Solution {
+    // 时间复杂度：O(N), N为股价数组的长度
+    // 空间复杂度：O(N), 虽然是二维数组，但是第二维是常数，所以与问题规模无关
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if(len < 2){
+            return 0;
+        }
+        
+        // 0: 持有现金
+        // 1：持有股票
+        // 状态转移： 0 → 1 → 0 → 1 → 0 → 1 → 0
+        
+        int[][] dp = new int[len][2];
+        
+        // 初始值
+        dp[0][0] = 0; // 什么都不做
+        dp[0][1] = -prices[0]; // 如果持有股票，则当前的cash为当天股价的相反数
+        
+        for(int i = 1; i < len; i++){
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);  // 卖出股票，获得现金price[i]，实际就是利润
+            dp[i][1] = Math.max(dp[i - 1][1], - prices[i]);  // 买入股票，减少现金price[i]
+        }
+        
+        // 输出dp[len - 1][0]，因为一定有dp[len - 1][0] > dp[len - 1][1]
+        return dp[len - 1][0];
+    }
+}
+
+-----------------------------------------------------------------------
+
+class Solution {
+    // 时间复杂度：O(N)，遍历股价数组可以得到最优解；
+    // 空间复杂度：O(1)，状态数组的长度为 2。
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if(len < 2){
+            return 0;
+        }
+        
+        int[] dp = new int[2];
+        
+        dp[0] = 0;
+        dp[1] = - prices[0];
+        
+        for(int i = 0; i < len; i++){
+            dp[0] = Math.max(dp[0], dp[1] + prices[i]);
+            dp[1] = Math.max(dp[1], - prices[i]);
+        }
+        return dp[0];
+    }
+}
+
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/solution/bao-li-mei-ju-dong-tai-gui-hua-chai-fen-si-xiang-b/
