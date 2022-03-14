@@ -1,0 +1,20 @@
+class Solution {
+    // 时间复杂度：O(N)，遍历股价数组可以得到最优解；
+    // 空间复杂度：O(N)，状态数组的长度为 N。
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if(len < 2){
+            return 0;
+        }
+        int[][] dp = new int[len][2];
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];
+        
+        // 从第二天开始算，因为第一天在初始化的时候写出来了
+        for(int i = 1; i < len; i++){
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        }
+        return dp[len - 1][0];
+    }
+}
