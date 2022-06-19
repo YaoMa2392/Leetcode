@@ -1,0 +1,58 @@
+https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/solution/si-lu-hen-jian-dan-xi-jie-fei-mo-gui-de-er-fen-cha/
+跟35一样，都是二分查找
+
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums.length == 0){
+            return new int[]{-1, -1};
+        }
+        
+        int firstPosition = findFirstPosition(nums, target);
+        if(firstPosition == -1){
+            return new int[]{-1, -1};
+        }
+        
+        int lastPosition = findLastPosition(nums, target);
+        return new int[]{firstPosition, lastPosition};
+    }
+    
+    private int findFirstPosition(int[] nums, int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left < right){
+            // 向下取整
+            int mid = left + (right - left) / 2;
+            if(nums[mid] < target){
+                left = mid + 1;
+            }else{
+                right = mid;
+            }
+        }
+        // 退出循环后，并不能确定 nums[left] 是否等于 target（有可能根本不包含target），因此需要再判断一次
+        if(nums[left] == target){
+            return left;
+        }
+        return -1;
+    }
+    
+    private int findLastPosition(int[] nums, int target){
+        int left = 0;
+        int right = nums.length - 1;
+        while(left < right){
+            // 向上取整
+            int mid = left + (right - left + 1) / 2;
+            // 注意这边跟 first 不一样，先取左中位数
+            // 如果跟 first 一样，case：5 6位置都是8，那么程序会永远卡在5上
+            if(nums[mid] > target){
+                right = mid - 1;
+            }else{
+                left = mid;
+            }
+        }
+        // 程序先执行 findFirstPostion，能执行到 Last 说明数组中一定存在等于 target 的元素，因此这里不用再判断 nums[left] 是否等于 target
+        return left;
+    }
+}
+
+知识点：二分查找法，见连接。
+
