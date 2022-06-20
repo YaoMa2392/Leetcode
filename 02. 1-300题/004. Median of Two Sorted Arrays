@@ -2,8 +2,7 @@ https://leetcode.cn/problems/median-of-two-sorted-arrays/solution/he-bing-yi-hou
 
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        // swap
-        // 为了使得搜索更快，我们把更短的数组设置为 nums1 ，因为使用二分查找法，在它的长度的对数时间复杂度内完成搜索；
+        // swap 始终保证nums1为较短的数组，nums1过长可能导致j为负数而越界
         if(nums1.length > nums2.length){
             int[] temp = nums1;
             nums1 = nums2;
@@ -13,8 +12,11 @@ class Solution {
         int m = nums1.length;
         int n = nums2.length;
         
-        // 分割线左边的所有元素需要满足的个数 m + (n - m + 1) / 2 
-        // (m + n + 1) / 2
+        // m+n 为奇数，分割线要求左侧有 (m+n)/2 + 1 个元素
+        // m+n 为偶数，分割线要求左侧有 (m+n)/2     个元素
+        // 两种情况其实可以统一写作 (m+n+1)/2，表示对(m+n)/2向上取整
+        // 对整数来说，向上取整等于：(被除数 + (除数 - 1)) / 除数
+        // 也可以使用Math类中提供的库函数
         int totalLeft = m + (n - m + 1) / 2;
         
         // 在 nums1 的区间 [0， m] 里查找恰当的分割线
@@ -23,25 +25,31 @@ class Solution {
         int right = m;
 
         while(left < right){
+            // +1 向上取整避免 left + 1 = right 时可能无法继续缩小区间而陷入死循环
             int i = left + (right - left + 1) / 2;
             int j = totalLeft - i;
             
+            //要找最大i，使得nums1[i-1] <= nums2[j]
+            //使用对立面缩小区间
             if(nums1[i - 1] > nums2[j]){
                 // 下一轮搜索的区间 [left, i - 1]
                 right = i - 1;
             }else{
                 // 下一轮搜索的区间 [i, right]
+                // i满足说明[0, i-1]均不为满足条件的最大i，舍去以缩小区间
                 left = i;
             }
         }
         
+        //退出循环时left=right，表示最终nums1中分割线的位置
         int i = left;
         int j = totalLeft - i;
         
-        int nums1LeftMax = i == 0 ? Integer.MIN_VALUE : nums1[i - 1];
-        int nums1RightMin = i == m ? Integer.MAX_VALUE : nums1[i];
-        int nums2LeftMax = j == 0 ? Integer.MIN_VALUE : nums2[j - 1];
-        int nums2RightMin = j == n ? Integer.MAX_VALUE : nums2[j];
+        //判断极端情况
+        int nums1LeftMax = i == 0 ? Integer.MIN_VALUE : nums1[i - 1];   //nums1分割线左边没有元素
+        int nums1RightMin = i == m ? Integer.MAX_VALUE : nums1[i];      //nums2分割线左边没有元素
+        int nums2LeftMax = j == 0 ? Integer.MIN_VALUE : nums2[j - 1]    //nums1分割线右边没有元素
+        int nums2RightMin = j == n ? Integer.MAX_VALUE : nums2[j];      //nums2分割线右边没有元素
         
         // 如果两个数组总长度为偶数，中位数为中间两数的平均数
         // 如果两个数组总长度为奇数，中位数为分割线左边的最大数
