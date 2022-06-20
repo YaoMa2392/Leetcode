@@ -21,7 +21,7 @@ class Solution {
         // 使得 nums1[i - 1] <= nums2[j] && nums2[j - 1] < nums2[i]
         int left = 0; 
         int right = m;
-        
+
         while(left < right){
             int i = left + (right - left + 1) / 2;
             int j = totalLeft - i;
@@ -44,11 +44,24 @@ class Solution {
         int nums2RightMin = j == n ? Integer.MAX_VALUE : nums2[j];
         
         // 如果两个数组总长度为偶数，中位数为中间两数的平均数
-        // 如果两个数组总长度为几树，中位数为分割线左边的最大数
-        if((m + n) % 2 == 0){
-            return (double) ((Math.max(nums1LeftMax, nums2LeftMax) + Math.min(nums1RightMin, nums2RightMin)) / 2);
-        }else{
+        // 如果两个数组总长度为奇数，中位数为分割线左边的最大数
+        if (((m + n) % 2) == 1) {
             return Math.max(nums1LeftMax, nums2LeftMax);
+        } else {
+            return (double) ((Math.max(nums1LeftMax, nums2LeftMax) + Math.min(nums1RightMin, nums2RightMin))) / 2;
         }
     }
 }
+
+
+------------------------------------------------------------
+
+知识点：Integer.MIN_VALUE, Integer.MAX_VALUE
+
+在JDK中，整形类型是有范围的，最大值为Integer.MAX_VALUE，即2147483647，最小值为Integer.MIN_VALUE -2147483648。
+对整形最大值加1，2147483648（越界了），那么此时值为多少呢？结果是-2147483648，即是Integer.MIN_VALUE。
+类似的，对Integer.MIN_VALUE取反或者取绝对值呢？仍为Integer.MIN_VALUE，因为值为-2147483648，绝对值2147483648超过Integer.MAX_VALUE 2147483647。
+所以就有以下结果
+Integer.MAX_VALUE + 1 = Integer.MIN_VALUE
+Math.abs(Integer.MIN_VALUE) = Integer.MIN_VALUE （绝对值）
+Long，short，byte的结论是相同的。
