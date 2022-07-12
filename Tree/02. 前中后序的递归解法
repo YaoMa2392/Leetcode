@@ -1,0 +1,41 @@
+589. N-ary Tree Preorder Traversal
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+    public List<Integer> preorder(Node root) {
+        List<Integer> res = new ArrayList<>();
+        helper(root, res);
+        return res;
+    }
+    
+    public void helper(Node root, List<Integer> res){
+        if(root == null){
+            return;
+        }
+        res.add(root.val);
+        for(Node ch : root.children){
+            helper(ch, res);
+        }
+    }
+}
+
+时间复杂度：O(m)，其中 m 为 N 叉树的节点。每个节点恰好被遍历一次。
+空间复杂度：O(m)，递归过程中需要调用栈的开销，平均情况下为 O(logm)，最坏情况下树的深度为 m−1，此时需要的空间复杂度为 O(m)。
